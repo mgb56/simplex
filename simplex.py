@@ -1,7 +1,3 @@
-# look into math packages that can allow me to work with formulas somehow, instead of strings
-# or lists of types
-
-
 # 1. (DONE) Parse input to get constraints
 # 2. (DONE) Replace each variable x with x' - x'', collect variable list
 # 3. (DONE) Get slack variables/forms (this is the first output)
@@ -157,7 +153,7 @@ def slackify(eqs, syms):
 
 # sl = slackify(*symp(*parse("AND(x <= 2)")))
 
-sl = slackify(*symp(*parse("AND(x < 0)")))
+# sl = slackify(*symp(*parse("AND(x < 0)")))
 
 
 
@@ -178,8 +174,8 @@ def output_slack(eqs, syms):
 
 	return('OPT' + str((term, formula, currentOptimumVertex, maximalValue)))
 
-print(output_slack(*sl))
-print()
+# print(output_slack(*sl))
+# print()
 
 
 def get_constant(arg, syms):
@@ -193,14 +189,6 @@ def get_constant(arg, syms):
 
 	return arg.func(*[term for term in arg.args if not term.free_symbols])
 
-# x,y,z,x0 = symbols('x,y,z,x0')
-
-# syms = {'x': x, 'y': y, 'z': z, 'x0': x0}
-# print(get_constant(-3,syms))
-# print(get_constant(x-3,syms))
-# print(get_constant(x,syms))
-# print(get_constant(-x,syms))
-# print(get_constant(-x-z,syms))
 
 def print_early_solution(syms):
 	out = ''
@@ -282,11 +270,11 @@ def find_most_neg_constant(slack_eqs, syms):
 	return sub_eqs, syms, goal
 
 
-potential_end = find_most_neg_constant(*sl)
+# potential_end = find_most_neg_constant(*sl)
 
-if isinstance(potential_end, str):
-	print(potential_end)
-	sys.exit(0)
+# if isinstance(potential_end, str):
+# 	print(potential_end)
+# 	sys.exit(0)
 
 
 def output_before_pivot(sub_eqs, syms, goal):
@@ -319,8 +307,8 @@ def output_before_pivot(sub_eqs, syms, goal):
 
 	return('OPT' + str((term, formula, currentOptimumVertex, -var_to_value['x0'])))
 
-print(output_before_pivot(*find_most_neg_constant(*sl)))
-print()
+# print(output_before_pivot(*find_most_neg_constant(*sl)))
+# print()
 
 def output_pivot_step(sub_eqs, new_sub_eqs, syms, goal, maxValue, pivot_var):
 	term = goal
@@ -416,7 +404,6 @@ def pivot(sub_eqs, syms, goal, maxValue):
 				break
 
 		if var_to_pivot_idx == -1:
-			print()
 			print("UNSAT")
 			return
 
@@ -456,6 +443,7 @@ def pivot(sub_eqs, syms, goal, maxValue):
 		if maxValue < 0:
 			print(output_pivot_step(sub_eqs, new_sub_eqs, syms, goal, maxValue,\
 			 (syms[var_to_pivot], eq_to_pivot_idx, -greatest_negative_ratio)))
+			print()
 
 		sub_eqs = new_sub_eqs
 
@@ -464,7 +452,7 @@ def pivot(sub_eqs, syms, goal, maxValue):
 	print(output_solution(sub_eqs, syms))
 	return
 
-pivot(*find_most_neg_constant(*sl), -var_to_value['x0'])
+# pivot(*find_most_neg_constant(*sl), -var_to_value['x0'])
 
 
 
